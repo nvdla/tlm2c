@@ -2,3 +2,14 @@
 *~
 # Object files.
 *.o
+libtlm2c.a
+# Patches.
+*.patch
+# CMake.
+CMakeCache.txt
+Makefile
+CMakeFiles
+Testing
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
