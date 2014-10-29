@@ -3,6 +3,7 @@
 # Object files.
 *.o
 libtlm2c.a
+tests/test_socket
 # Patches.
 *.patch
 # CMake.

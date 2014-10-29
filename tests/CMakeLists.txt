@@ -38,33 +38,9 @@
 # this exception also makes it possible to release a modified version
 # which carries forward this exception.
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-PROJECT(TLM2C)
-
-LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-
-set (INCLUDE_DIRS include)
-
-INCLUDE_DIRECTORIES(${INCLUDE_DIRS})
-
-set(CMAKE_C_FLAGS "-fPIC -Wall -Werror -O3")
-
-add_library(tlm2c STATIC
-  src/environment.c
-  src/genericPayload.c
-  src/method.c
-  src/model.c
-  src/socket.c
-  )
-
-# Installation paths
-INSTALL(DIRECTORY include/tlm2c
-        DESTINATION include
-)
-# Not sure it's the right destination? Maybe we want lib64 in case of 64bits?
-INSTALL(TARGETS tlm2c DESTINATION lib)
-
-# Make tests
-ENABLE_TESTING()
-ADD_SUBDIRECTORY(tests)
-
+ADD_EXECUTABLE(test_socket
+               test_socket.c
+               initiator.c
+               target.c)
+TARGET_LINK_LIBRARIES(test_socket tlm2c)
+ADD_TEST(NAME socket COMMAND ./test_socket)
