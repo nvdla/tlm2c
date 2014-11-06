@@ -60,6 +60,7 @@ add_library(tlm2c STATIC
 # Installation paths
 INSTALL(DIRECTORY include/tlm2c
         DESTINATION include
+        PATTERN "*~" EXCLUDE
 )
 # Not sure it's the right destination? Maybe we want lib64 in case of 64bits?
 INSTALL(TARGETS tlm2c DESTINATION lib)
