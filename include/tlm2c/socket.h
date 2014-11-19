@@ -43,13 +43,13 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-#include "genericPayload.h"
-#include "dmi.h"
-
 typedef struct Socket Socket;
 typedef struct TargetSocket TargetSocket;
 typedef struct InitiatorSocket InitiatorSocket;
-typedef struct Model Model;
+
+#include "genericPayload.h"
+#include "dmi.h"
+#include "model.h"
 
 /*
  * function pointer type.

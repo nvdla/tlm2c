@@ -43,10 +43,11 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+typedef struct Model Model;
+
 #include "method.h"
 #include "socket.h"
 
-typedef struct Model Model;
 typedef void (*eoe_cb)(Model *model);
 
 struct Model

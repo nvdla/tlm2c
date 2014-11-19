@@ -46,9 +46,11 @@
 #include <stdio.h>
 #include <stdint.h>
 
-typedef struct Model Model;
-typedef void (*notify_cb)(Model *model);
 typedef struct Method Method;
+
+#include "model.h"
+
+typedef void (*notify_cb)(Model *model);
 
 Method *method_create(notify_cb cb, int init);
 void method_destroy(Method *method);
