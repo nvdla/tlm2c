@@ -54,14 +54,14 @@ void default_get_param_list(void *handler, char **list[], size_t *size);
 
 Environment global_env =
 {
-  .get_time_ns = default_get_time_ns,
-  .request_stop = default_request_stop,
-  .request_notify = default_request_notify,
-  .get_uint_param = default_get_uint_param,
-  .get_int_param = default_get_int_param,
-  .get_string_param = default_get_string_param,
-  .get_param_list = default_get_param_list,
-  .handler = NULL
+  default_get_time_ns,
+  default_request_stop,
+  default_request_notify,
+  default_get_uint_param,
+  default_get_int_param,
+  default_get_string_param,
+  default_get_param_list,
+  NULL
 };
 
 void tlm2c_set_environment(Environment *env)
