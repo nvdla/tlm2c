@@ -41,16 +41,50 @@
  */
 
 #include "tlm2c/environment.h"
-
 #include <string.h>
 
-uint64_t default_get_time_ns(void *handler);
-void default_request_stop(void *handler);
-void default_request_notify(void *handler, uint64_t time_ns);
-uint64_t default_get_uint_param(void *handler, const char *name);
-int64_t default_get_int_param(void *handler, const char *name);
-void default_get_string_param(void *handler, const char *name, char **param);
-void default_get_param_list(void *handler, char **list[], size_t *size);
+/* Default functions. */
+static uint64_t default_get_time_ns(void *handler)
+{
+  return 0;
+}
+
+static void default_request_stop(void *handler)
+{
+  abort();
+}
+
+static void default_request_notify(void *handler, uint64_t time_ns)
+{
+
+}
+
+static uint64_t default_get_uint_param(void *handler, const char *name)
+{
+  return 0;
+}
+
+static int64_t default_get_int_param(void *handler, const char *name)
+{
+  return 0;
+}
+
+static void default_get_string_param(void *handler, const char *name,
+                                     char **param)
+{
+  *param = NULL;
+}
+
+static void default_get_param_list(void *handler, char **list[], size_t *size)
+{
+  *list = NULL;
+  *size = 0;
+}
+
+static void default_end_of_quantum(void *handler)
+{
+
+}
 
 Environment global_env =
 {
@@ -61,6 +95,7 @@ Environment global_env =
   default_get_int_param,
   default_get_string_param,
   default_get_param_list,
+  default_end_of_quantum,
   NULL
 };
 
@@ -74,42 +109,6 @@ Environment *get_env(void)
   return &global_env;
 }
 
-uint64_t default_get_time_ns(void *handler)
-{
-  return 0;
-}
-
-void default_request_stop(void *handler)
-{
-  abort();
-}
-
-void default_request_notify(void *handler, uint64_t time_ns)
-{
-
-}
-
-uint64_t default_get_uint_param(void *handler, const char *name)
-{
-  return 0;
-}
-
-int64_t default_get_int_param(void *handler, const char *name)
-{
-  return 0;
-}
-
-void default_get_string_param(void *handler, const char *name, char **param)
-{
-  *param = NULL;
-}
-
-void default_get_param_list(void *handler, char **list[], size_t *size)
-{
-  *list = NULL;
-  *size = 0;
-}
-
 uint64_t env_get_time_ns(Environment *env)
 {
   return env->get_time_ns(env->handler);
@@ -118,4 +117,9 @@ uint64_t env_get_time_ns(Environment *env)
 void env_request_notify(Environment *env, uint64_t time_ns)
 {
   env->request_notify(env->handler, time_ns);
+}
+
+void env_signal_end_of_quantum(void)
+{
+  global_env.end_of_quantum(global_env.handler);
 }

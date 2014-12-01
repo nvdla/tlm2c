@@ -1,3 +1,7 @@
+2014-12-01  KONRAD Frederic  <fred.konrad@greensocs.com>
+
+    * Added an end_of_quantum callback in the environment.
+
 2014-10-29  KONRAD Frederic  <fred.konrad@greensocs.com>
 
 	* TLM2C first draft.

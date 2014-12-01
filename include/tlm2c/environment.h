@@ -57,6 +57,7 @@ struct Environment
   int64_t (*get_int_param)(void *handler, const char *name);
   void (*get_string_param)(void *handler, const char *name, char **param);
   void (*get_param_list)(void *handler, char **list[], size_t *size);
+  void (*end_of_quantum)(void *handler);
   void *handler;
 };
 
@@ -65,6 +66,8 @@ typedef struct Environment Environment;
 Environment *get_env(void);
 uint64_t env_get_time_ns(Environment *env);
 void env_request_notify(Environment *env, uint64_t time_ns);
+/* Signal the environment this tlm2c instance has finished it's quantum. */
+void env_signal_end_of_quantum(void);
 
 void tlm2c_set_environment(Environment *env);
 
