@@ -68,6 +68,8 @@ uint64_t env_get_time_ns(Environment *env);
 void env_request_notify(Environment *env, uint64_t time_ns);
 /* Signal the environment this tlm2c instance has finished it's quantum. */
 void env_signal_end_of_quantum(void);
+/* Signal the environment this tlm2c instance want to stop. */
+void env_request_stop(void);
 
 void tlm2c_set_environment(Environment *env);
 

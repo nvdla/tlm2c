@@ -123,3 +123,8 @@ void env_signal_end_of_quantum(void)
 {
   global_env.end_of_quantum(global_env.handler);
 }
+
+void env_request_stop(void)
+{
+  global_env.request_stop(global_env.handler);
+}
