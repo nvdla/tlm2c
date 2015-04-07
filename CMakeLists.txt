@@ -47,7 +47,11 @@ set (INCLUDE_DIRS include)
 
 INCLUDE_DIRECTORIES(${INCLUDE_DIRS})
 
-set(CMAKE_C_FLAGS "-fPIC -Wall -Werror -pedantic -O2")
+set(CMAKE_C_FLAGS "-Wall -Werror -pedantic -O2")
+
+if(NOT MINGW)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
+endif()
 
 add_library(tlm2c STATIC
   src/environment.c
