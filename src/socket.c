@@ -58,6 +58,8 @@ InitiatorSocket *payload_get_source_initiator(Payload *p);
  */
 void default_blocking_transport(void *handle, Payload *p);
 int default_get_direct_mem_ptr(void *handle, Payload *p, DMIData *d);
+void default_invalidate_direct_mem_ptr(void *handle, uint64_t start,
+                                                     uint64_t end);
 
 struct Socket
 {
@@ -68,18 +70,23 @@ struct Socket
   Socket *next_list;  /*< Next in the complete list. */
 };
 
+struct InitiatorSocket; /* To avoid circular reference issue */
+
 struct TargetSocket
 {
   struct Socket base;
+  InitiatorSocket *is; /*< Other side socket (initiator) */
   blocking_transport bt;
-  void *handle;
+  void *handle; /*< Handle associated to get_direct_mem_ptr and b_transport */
   get_direct_mem_ptr dp;
 };
 
 struct InitiatorSocket
 {
   struct Socket base;
-  TargetSocket *ts;
+  TargetSocket *ts; /*< Other side socket (target) */
+  void *handle; /*<  Handle associated to the invalidate cb */
+  invalidate_direct_mem_ptr idp; /**< DMI invalidate callback */
 };
 
 void tlm2c_socket_init(Socket *socket, const char *name)
@@ -96,6 +103,7 @@ InitiatorSocket *socket_initiator_create(const char *name)
   s = (InitiatorSocket *)malloc(sizeof(InitiatorSocket));
   memset(s, 0, sizeof(InitiatorSocket));
   tlm2c_socket_init(&s->base, name);
+  s->idp = default_invalidate_direct_mem_ptr;
   return s;
 }
 
@@ -176,6 +184,19 @@ int default_get_direct_mem_ptr(void *handle, Payload *p, DMIData *d)
   return 0;
 }
 
+/*
+ * This is the default function when no invalidate_direct_mem_ptr has been
+ * registered.
+ *
+ * @param handle handle
+ * @param start invalidate start address
+ * @param end invalidate end address
+ */
+void default_invalidate_direct_mem_ptr(void *handle, uint64_t start,
+                                                     uint64_t end)
+{
+}
+
 void b_transport(InitiatorSocket *master, Payload *p)
 {
   /*
@@ -194,6 +215,13 @@ int tlm2c_get_direct_mem_ptr(InitiatorSocket *master, Payload *p, DMIData *dmi)
   return master->ts->dp(master->ts->handle, p, dmi);
 }
 
+void tlm2c_memory_invalidate_direct_mem_ptr(TargetSocket *target,
+                                            uint64_t start,
+                                            uint64_t end)
+{
+    target->is->idp(target->is->handle, start, end);
+}
+
 void tlm2c_bind(InitiatorSocket *master, TargetSocket *slave)
 {
   if (master->base.bound)
@@ -208,6 +236,7 @@ void tlm2c_bind(InitiatorSocket *master, TargetSocket *slave)
   }
 
   master->ts = slave;
+  slave->is = master;
   master->base.bound = 1;
   slave->base.bound = 1;
 }
@@ -224,6 +253,15 @@ void tlm2c_socket_target_register_dmi(TargetSocket *target,
                                       get_direct_mem_ptr dp)
 {
   target->dp = dp;
+}
+
+void tlm2c_socket_initiator_register_invalidate_direct_mem_ptr(
+    InitiatorSocket *slave,
+    void *handle,
+    invalidate_direct_mem_ptr idp)
+{
+    slave->idp = idp;
+    slave->handle = handle;
 }
 
 /*

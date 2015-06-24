@@ -56,6 +56,9 @@ typedef struct InitiatorSocket InitiatorSocket;
  */
 typedef void (*blocking_transport)(void *handle, Payload *p);
 typedef int (*get_direct_mem_ptr)(void *handle, Payload *p, DMIData *d);
+typedef void (*invalidate_direct_mem_ptr)(void *handle,
+                                          uint64_t start,
+                                          uint64_t end);
 
 /**
  * \func InitiatorSocket *socket_initiator_create(const char name).
@@ -78,8 +81,16 @@ int tlm2c_get_direct_mem_ptr(InitiatorSocket *master, Payload *p,
                              DMIData *dmi);
 
 /**
- * \func tlm2c_bind(InitiatorSocket *, TargetSocket *)
+ * Pass DMI invalidate to initiator calling registered callback
+ *
+ * @param target target socket
+ * @param start invalidate start address
+ * @param end invalidate end address
  */
+void tlm2c_memory_invalidate_direct_mem_ptr(TargetSocket *target,
+                                            uint64_t start,
+                                            uint64_t end);
+
 void tlm2c_bind(InitiatorSocket *master, TargetSocket *slave);
 
 void socket_target_register_b_transport(TargetSocket *target, void *handle,
@@ -87,6 +98,18 @@ void socket_target_register_b_transport(TargetSocket *target, void *handle,
 
 void tlm2c_socket_target_register_dmi(TargetSocket *target,
                                       get_direct_mem_ptr dp);
+
+/**
+ * Register a callback for DMI invalidate
+ *
+ * @param slave initiator socket
+ * @param handle handle associated to the invalidate cb
+ * @param idp callback function
+ */
+void tlm2c_socket_initiator_register_invalidate_direct_mem_ptr(
+    InitiatorSocket *slave,
+    void *handle,
+    invalidate_direct_mem_ptr idp);
 
 Socket *tlm2c_socket_get_by_name(const char *name);
 
