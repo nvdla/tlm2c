@@ -61,22 +61,41 @@ typedef void (*invalidate_direct_mem_ptr)(void *handle,
                                           uint64_t end);
 
 /**
- * \func InitiatorSocket *socket_initiator_create(const char name).
+ * Create TLM2C Initiator Socket
+ *
+ * @param name socket name
  */
 InitiatorSocket *socket_initiator_create(const char *name);
 
 /**
- * \func TargetSocket *socket_target_create(const char *name).
+ * Create TLM2C Target Socket
+ *
+ * @param name socket name
  */
 TargetSocket *socket_target_create(const char *name);
 
+/**
+ * Destroy socket list
+ *
+ * @param socket first socket
+ */
 void socket_destroy_list(Socket *socket);
 
 /**
- * \func b_transport(..).
+ * Call blocking transport
+ *
+ * @param master initiator socket
+ * @param p payload
  */
 void b_transport(InitiatorSocket *master, Payload *p);
 
+/**
+ * Get direct memory pointer
+ *
+ * @param master initiator socket
+ * @param p payload
+ * @param dmi DMI data
+ */
 int tlm2c_get_direct_mem_ptr(InitiatorSocket *master, Payload *p,
                              DMIData *dmi);
 
@@ -91,11 +110,30 @@ void tlm2c_memory_invalidate_direct_mem_ptr(TargetSocket *target,
                                             uint64_t start,
                                             uint64_t end);
 
+/**
+ * Bind initiator with target socket
+ *
+ * @param master initiator socket
+ * @param slave target socket
+ */
 void tlm2c_bind(InitiatorSocket *master, TargetSocket *slave);
 
+/**
+ * Register target blocking transport
+ *
+ * @param target target socket
+ * @param handle associated handle
+ * @param bt blocking transport function
+ */
 void socket_target_register_b_transport(TargetSocket *target, void *handle,
                                         blocking_transport bt);
 
+/**
+ * Register DMI
+ *
+ * @param target target socket
+ * @param dp get_direct_mem_ptr function
+ */
 void tlm2c_socket_target_register_dmi(TargetSocket *target,
                                       get_direct_mem_ptr dp);
 
@@ -111,6 +149,13 @@ void tlm2c_socket_initiator_register_invalidate_direct_mem_ptr(
     void *handle,
     invalidate_direct_mem_ptr idp);
 
+/**
+ * Get socket by name
+ *
+ * @param name socket name
+ *
+ * @return socket associated to the name or NULL if not found
+ */
 Socket *tlm2c_socket_get_by_name(const char *name);
 
 #endif /* !SOCKET_H */
