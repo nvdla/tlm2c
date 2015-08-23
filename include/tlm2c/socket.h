@@ -138,6 +138,15 @@ void socket_target_register_b_transport(TargetSocket *target, void *handle,
 Socket *tlm2c_socket_get_bound_socket(Socket *socket);
 
 /**
+ * Get the socket's model.
+ *
+ * @param socket The socket to check.
+ *
+ * @return The model where the socket is.
+ */
+Model *tlm2c_socket_get_model(Socket *socket);
+
+/**
  * Register DMI
  *
  * @param target target socket

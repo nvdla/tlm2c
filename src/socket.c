@@ -290,6 +290,11 @@ void socket_set_model(Socket *socket, Model *model)
   socket->model = model;
 }
 
+Model *tlm2c_socket_get_model(Socket *socket)
+{
+  return socket->model;
+}
+
 Socket *socket_insert_head(Socket *element, Socket *head)
 {
   element->next = head;
