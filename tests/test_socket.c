@@ -60,8 +60,7 @@ int main(int argc, char **argv)
 
   tlm2c_bind(initiator->master_socket, target->slave_socket);
 
-  model_end_of_elaboration((Model *)initiator);
-  model_end_of_elaboration((Model *)target);
+  tlm2c_end_of_elaboration();
   notify(initiator);
 
   if (!initiator->test_fail)

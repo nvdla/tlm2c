@@ -134,3 +134,14 @@ Model *get_models(void)
 {
   return head;
 }
+
+void tlm2c_end_of_elaboration(void)
+{
+  Model *model = head;
+
+  while (model != NULL)
+  {
+    model_end_of_elaboration(model);
+    model = model->next;
+  }
+}

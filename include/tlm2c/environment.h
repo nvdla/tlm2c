@@ -77,6 +77,6 @@ void tlm2c_set_environment(Environment *env);
  * Elaboration function.
  */
 Model *tlm2c_elaboration(Environment *environment);
+void tlm2c_end_of_elaboration(void);
 
 #endif /* !ENVIRONMENT_H */
-
