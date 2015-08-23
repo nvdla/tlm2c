@@ -61,6 +61,7 @@ struct Model
 };
 
 void model_init(Model *model, const char *name);
+const char *tlm2c_model_get_name(Model *model);
 void model_add_method(Model *model, Method *method);
 void model_register_end_of_elaboration(Model *model, eoe_cb cb);
 void model_add_socket(Model *model, Socket *socket);

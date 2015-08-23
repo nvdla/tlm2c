@@ -74,6 +74,11 @@ void model_init(Model *model, const char *name)
   head = model;
 }
 
+const char *tlm2c_model_get_name(Model *model)
+{
+  return model->name;
+}
+
 void model_add_method(Model *model, Method *method)
 {
   model->methods = method_insert_head(method, model->methods);
