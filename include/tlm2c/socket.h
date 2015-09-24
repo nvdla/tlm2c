@@ -129,6 +129,15 @@ void socket_target_register_b_transport(TargetSocket *target, void *handle,
                                         blocking_transport bt);
 
 /**
+ * Get the remote socket bound to @socket.
+ *
+ * @param socket The socket to check.
+ *
+ * @return The socket bound to this one or NULL if not bound.
+ */
+Socket *tlm2c_socket_get_bound_socket(Socket *socket);
+
+/**
  * Register DMI
  *
  * @param target target socket

@@ -64,7 +64,7 @@ void default_invalidate_direct_mem_ptr(void *handle, uint64_t start,
 struct Socket
 {
   char *name;
-  int bound;
+  Socket *bound;      /*< The socket bound to this one. */
   Model *model;
   Socket *next;
   Socket *next_list;  /*< Next in the complete list. */
@@ -94,6 +94,7 @@ void tlm2c_socket_init(Socket *socket, const char *name)
   socket->name = strdup(name);
   socket->next = socket_list_head;
   socket_list_head = socket;
+  socket->bound = NULL;
 }
 
 InitiatorSocket *socket_initiator_create(const char *name)
@@ -206,7 +207,8 @@ void b_transport(InitiatorSocket *master, Payload *p)
   master->ts->bt(master->ts->handle, p);
 }
 
-int tlm2c_get_direct_mem_ptr(InitiatorSocket *master, Payload *p, DMIData *dmi)
+int tlm2c_get_direct_mem_ptr(InitiatorSocket *master, Payload *p,
+                             DMIData *dmi)
 {
   /*
    * Keep the source initiator so we can report an error.
@@ -226,7 +228,8 @@ void tlm2c_bind(InitiatorSocket *master, TargetSocket *slave)
 {
   if (master->base.bound)
   {
-    fprintf(stderr, "error: initiator %s already bound.\n", master->base.name);
+    fprintf(stderr, "error: initiator %s already bound.\n",
+            master->base.name);
     abort();
   }
   if (slave->base.bound)
@@ -237,8 +240,13 @@ void tlm2c_bind(InitiatorSocket *master, TargetSocket *slave)
 
   master->ts = slave;
   slave->is = master;
-  master->base.bound = 1;
-  slave->base.bound = 1;
+  master->base.bound = (Socket *)slave;
+  slave->base.bound = (Socket *)master;
+}
+
+Socket *tlm2c_socket_get_bound_socket(Socket *socket)
+{
+  return socket->bound;
 }
 
 void socket_target_register_b_transport(TargetSocket *target,
