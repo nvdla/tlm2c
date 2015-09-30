@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2014, GreenSocs Ltd.
  *
- * Developped by Konrad Frederic <fred.konrad@greensocs.com>
+ * Developed by Konrad Frederic <fred.konrad@greensocs.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,12 +40,14 @@
  *
  */
 
+#include <string.h>
 #include "initiator.h"
 
 Initiator *create_example_initiator(void)
 {
   Initiator *initiator = malloc(sizeof(Initiator));
 
+  memset(initiator, 0, sizeof(Initiator));
   model_init(&initiator->model, "Example_initiator");
   initiator->master_socket = socket_initiator_create("master_socket");
   model_add_socket(&initiator->model, (Socket *)initiator->master_socket);

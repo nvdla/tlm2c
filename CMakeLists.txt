@@ -59,6 +59,7 @@ add_library(tlm2c STATIC
   src/method.c
   src/model.c
   src/socket.c
+  src/spinlock.c
   )
 
 # Installation paths

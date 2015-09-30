@@ -1,7 +1,7 @@
 /*
- * initiator.h
+ * spinlock.c
  *
- * Copyright (C) 2014, GreenSocs Ltd.
+ * Copyright (C) 2015, GreenSocs Ltd.
  *
  * Developed by Konrad Frederic <fred.konrad@greensocs.com>
  *
@@ -40,24 +40,17 @@
  *
  */
 
-#ifndef INITIATOR_H
-#define INITIATOR_H
+#include "tlm2c/spinlock.h"
 
-#include "tlm2c/tlm2c.h"
-
-typedef struct Initiator
+void tlm2c_spinlock_lock(tlm2c_spinlock *spinlock)
 {
-  Model model;
-  InitiatorSocket *master_socket;
-  int test_fail; /* <! Just for the test case. true if it failed. */
-} Initiator;
+  while (!__sync_bool_compare_and_swap(spinlock, 0, 1))
+  {
+  }
+}
 
-Initiator *create_example_initiator(void);
-void destroy_initiator(Initiator *initiator);
+void tlm2c_spinlock_unlock(tlm2c_spinlock *spinlock)
+{
+  __sync_fetch_and_sub(spinlock, 1);
+}
 
-/*
- * XXX: This is wrong but we don't have any scheduler yet..
- */
-void notify(Initiator *initiator);
-
-#endif /* !INITIATOR_H */

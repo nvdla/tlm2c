@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2014, GreenSocs Ltd.
  *
- * Developped by Konrad Frederic <fred.konrad@greensocs.com>
+ * Developed by Konrad Frederic <fred.konrad@greensocs.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ InitiatorSocket *socket_initiator_create(const char *name);
 TargetSocket *socket_target_create(const char *name);
 
 /**
- * Destroy socket list
+ * Destroy the whole socket list.
  *
  * @param socket first socket
  */
@@ -175,5 +175,14 @@ void tlm2c_socket_initiator_register_invalidate_direct_mem_ptr(
  * @return socket associated to the name or NULL if not found
  */
 Socket *tlm2c_socket_get_by_name(const char *name);
+
+/**
+ * Get the socket name
+ *
+ * @param socket the socket to get the name
+ *
+ * @return the name of the socket.
+ */
+const char *tlm2c_socket_get_name(Socket *socket);
 
 #endif /* !SOCKET_H */

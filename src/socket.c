@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2014, GreenSocs Ltd.
  *
- * Developped by Konrad Frederic <fred.konrad@greensocs.com>
+ * Developed by Konrad Frederic <fred.konrad@greensocs.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,10 +41,12 @@
  */
 
 #include "tlm2c/socket.h"
+#include "tlm2c/spinlock.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
+tlm2c_spinlock socket_list_lock = 0;
 Socket *socket_list_head = NULL;
 
 /*
@@ -66,8 +68,8 @@ struct Socket
   char *name;
   Socket *bound;      /*< The socket bound to this one. */
   Model *model;
-  Socket *next;
-  Socket *next_list;  /*< Next in the complete list. */
+  Socket *next;       /*< Next in the module list.      */
+  Socket *next_list;  /*< Next in the complete list.    */
 };
 
 struct InitiatorSocket; /* To avoid circular reference issue */
@@ -91,10 +93,12 @@ struct InitiatorSocket
 
 void tlm2c_socket_init(Socket *socket, const char *name)
 {
+  tlm2c_spinlock_lock(&socket_list_lock);
   socket->name = strdup(name);
-  socket->next = socket_list_head;
+  socket->next_list = socket_list_head;
   socket_list_head = socket;
   socket->bound = NULL;
+  tlm2c_spinlock_unlock(&socket_list_lock);
 }
 
 InitiatorSocket *socket_initiator_create(const char *name)
@@ -130,9 +134,10 @@ static void tlm2c_socket_destroy(Socket *socket)
     return;
   }
 
+  tlm2c_spinlock_lock(&socket_list_lock);
   if (socket == socket_list_head)
   {
-    socket_list_head = socket_list_head->next;
+    socket_list_head = socket_list_head->next_list;
   }
   else
   {
@@ -140,13 +145,14 @@ static void tlm2c_socket_destroy(Socket *socket)
     {
       if (current->next == socket)
       {
-        current->next = socket->next;
+        current->next_list = socket->next_list;
         break;
       }
-      current = current->next;
+      current = current->next_list;
     }
   }
   free(socket);
+  tlm2c_spinlock_unlock(&socket_list_lock);
 }
 
 void socket_destroy_list(Socket *socket)
@@ -303,15 +309,22 @@ Socket *socket_insert_head(Socket *element, Socket *head)
 
 Socket *tlm2c_socket_get_by_name(const char *name)
 {
-  Socket *current = socket_list_head;
+  Socket *current;
 
+  tlm2c_spinlock_lock(&socket_list_lock);
+  current = socket_list_head;
   while (current != NULL)
   {
     if (strcmp(current->name, name) == 0)
       break;
-    current = current->next;
+    current = current->next_list;
   }
 
+  tlm2c_spinlock_unlock(&socket_list_lock);
   return current;
 }
 
+const char *tlm2c_socket_get_name(Socket *socket)
+{
+  return socket->name;
+}
