@@ -68,8 +68,8 @@ struct Socket
   char *name;
   Socket *bound;      /*< The socket bound to this one. */
   Model *model;
-  Socket *next;
-  Socket *next_list;  /*< Next in the complete list. */
+  Socket *next;       /*< Next in the module list.      */
+  Socket *next_list;  /*< Next in the complete list.    */
 };
 
 struct InitiatorSocket; /* To avoid circular reference issue */
@@ -95,7 +95,7 @@ void tlm2c_socket_init(Socket *socket, const char *name)
 {
   tlm2c_spinlock_lock(&socket_list_lock);
   socket->name = strdup(name);
-  socket->next = socket_list_head;
+  socket->next_list = socket_list_head;
   socket_list_head = socket;
   socket->bound = NULL;
   tlm2c_spinlock_unlock(&socket_list_lock);
@@ -137,7 +137,7 @@ static void tlm2c_socket_destroy(Socket *socket)
   tlm2c_spinlock_lock(&socket_list_lock);
   if (socket == socket_list_head)
   {
-    socket_list_head = socket_list_head->next;
+    socket_list_head = socket_list_head->next_list;
   }
   else
   {
@@ -145,10 +145,10 @@ static void tlm2c_socket_destroy(Socket *socket)
     {
       if (current->next == socket)
       {
-        current->next = socket->next;
+        current->next_list = socket->next_list;
         break;
       }
-      current = current->next;
+      current = current->next_list;
     }
   }
   free(socket);
@@ -317,7 +317,7 @@ Socket *tlm2c_socket_get_by_name(const char *name)
   {
     if (strcmp(current->name, name) == 0)
       break;
-    current = current->next;
+    current = current->next_list;
   }
 
   tlm2c_spinlock_unlock(&socket_list_lock);

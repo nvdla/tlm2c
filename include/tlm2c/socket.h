@@ -75,7 +75,7 @@ InitiatorSocket *socket_initiator_create(const char *name);
 TargetSocket *socket_target_create(const char *name);
 
 /**
- * Destroy socket list
+ * Destroy the whole socket list.
  *
  * @param socket first socket
  */
