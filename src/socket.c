@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2014, GreenSocs Ltd.
  *
- * Developped by Konrad Frederic <fred.konrad@greensocs.com>
+ * Developed by Konrad Frederic <fred.konrad@greensocs.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -324,3 +324,7 @@ Socket *tlm2c_socket_get_by_name(const char *name)
   return current;
 }
 
+const char *tlm2c_socket_get_name(Socket *socket)
+{
+  return socket->name;
+}
