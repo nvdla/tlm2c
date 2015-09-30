@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2014, GreenSocs Ltd.
  *
- * Developped by Konrad Frederic <fred.konrad@greensocs.com>
+ * Developed by Konrad Frederic <fred.konrad@greensocs.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -120,6 +120,12 @@ void default_end_of_elaboration(Model *model)
 
 void model_add_socket(Model *model, Socket *socket)
 {
+  if (tlm2c_socket_get_model(socket))
+  {
+    fprintf(stderr, "error: socket %s is already attached to model %s.\n",
+            tlm2c_socket_get_name(socket), model->name);
+    abort();
+  }
   model->sockets = socket_insert_head(socket, model->sockets);
   socket_prefix_name(socket, model->name);
   socket_set_model(socket, model);
