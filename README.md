@@ -20,13 +20,14 @@ OS support :
 ## Build
 
 ```bash
-$ cmake .
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
 ```
-
-This will result in generating the `Makefile` to build **TLM2C**.
 
 ## Contributing
 
 **TLM2C** is an open source, community-driven project. If you'd like to contribute, please feel free to fork project and open a merge request or to [send us] a patch. 
 
-[send us]:http://www.greensocs.com/contact
+[send us]:https://www.greensocs.com/contact
