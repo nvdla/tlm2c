@@ -15,7 +15,7 @@ OS support :
 
 * Linux (Debian/Ubuntu, CentOS)
 * Windows with MinGW
-* OS X : soon
+* OS X
 
 ## Build
 
