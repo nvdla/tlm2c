@@ -45,11 +45,11 @@
 
 #include <stdint.h>
 
-typedef struct DMIData
+typedef struct TLM2CDMIData
 {
   void *pointer;
   uint64_t start_address;
   uint64_t end_address;
-} DMIData;
+} TLM2CDMIData;
 
 #endif /* DMI_H */

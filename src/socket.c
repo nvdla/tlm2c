@@ -59,7 +59,7 @@ InitiatorSocket *payload_get_source_initiator(Payload *p);
  * Default functions for the target socket.
  */
 void default_blocking_transport(void *handle, Payload *p);
-int default_get_direct_mem_ptr(void *handle, Payload *p, DMIData *d);
+int default_get_direct_mem_ptr(void *handle, Payload *p, TLM2CDMIData *d);
 void default_invalidate_direct_mem_ptr(void *handle, uint64_t start,
                                                      uint64_t end);
 
@@ -186,7 +186,7 @@ void default_blocking_transport(void *handle, Payload *p)
  * This is the default function when no get_direct_mem_ptr has been
  * registered.
  */
-int default_get_direct_mem_ptr(void *handle, Payload *p, DMIData *d)
+int default_get_direct_mem_ptr(void *handle, Payload *p, TLM2CDMIData *d)
 {
   return 0;
 }
@@ -214,7 +214,7 @@ void b_transport(InitiatorSocket *master, Payload *p)
 }
 
 int tlm2c_get_direct_mem_ptr(InitiatorSocket *master, Payload *p,
-                             DMIData *dmi)
+                             TLM2CDMIData *dmi)
 {
   /*
    * Keep the source initiator so we can report an error.

@@ -55,7 +55,7 @@ typedef struct InitiatorSocket InitiatorSocket;
  * function pointer type.
  */
 typedef void (*blocking_transport)(void *handle, Payload *p);
-typedef int (*get_direct_mem_ptr)(void *handle, Payload *p, DMIData *d);
+typedef int (*get_direct_mem_ptr)(void *handle, Payload *p, TLM2CDMIData *d);
 typedef void (*invalidate_direct_mem_ptr)(void *handle,
                                           uint64_t start,
                                           uint64_t end);
@@ -97,7 +97,7 @@ void b_transport(InitiatorSocket *master, Payload *p);
  * @param dmi DMI data
  */
 int tlm2c_get_direct_mem_ptr(InitiatorSocket *master, Payload *p,
-                             DMIData *dmi);
+                             TLM2CDMIData *dmi);
 
 /**
  * Pass DMI invalidate to initiator calling registered callback
