@@ -48,7 +48,7 @@
 
 #include "model.h"
 
-struct Environment
+struct TLM2CEnvironment
 {
   uint64_t (*get_time_ns)(void *handler);
   void (*request_stop)(void *handler);
@@ -61,22 +61,22 @@ struct Environment
   void *handler;
 };
 
-typedef struct Environment Environment;
+typedef struct TLM2CEnvironment TLM2CEnvironment;
 
-Environment *get_env(void);
-uint64_t env_get_time_ns(Environment *env);
-void env_request_notify(Environment *env, uint64_t time_ns);
+TLM2CEnvironment *tlm2c_get_env(void);
+uint64_t tlm2c_env_get_time_ns(TLM2CEnvironment *env);
+void tlm2c_env_request_notify(TLM2CEnvironment *env, uint64_t time_ns);
 /* Signal the environment this tlm2c instance has finished it's quantum. */
-void env_signal_end_of_quantum(void);
+void tlm2c_env_signal_end_of_quantum(void);
 /* Signal the environment this tlm2c instance want to stop. */
-void env_request_stop(void);
+void tlm2c_env_request_stop(void);
 
-void tlm2c_set_environment(Environment *env);
+void tlm2c_set_environment(TLM2CEnvironment *env);
 
 /*
  * Elaboration function.
  */
-Model *tlm2c_elaboration(Environment *environment);
+Model *tlm2c_elaboration(TLM2CEnvironment *environment);
 void tlm2c_end_of_elaboration(void);
 
 #endif /* !ENVIRONMENT_H */
