@@ -45,11 +45,22 @@
 
 #include <stdint.h>
 
+typedef enum TLM2CDMIAccess
+{
+  TLM2C_DMI_NONE = 0,
+  TLM2C_DMI_READ,
+  TLM2C_DMI_WRITE,
+  TLM2C_DMI_READ_WRITE
+} TLM2CDMIAccess;
+
 typedef struct TLM2CDMIData
 {
   void *pointer;
   uint64_t start_address;
   uint64_t end_address;
+  uint64_t read_latency;
+  uint64_t write_latency;
+  TLM2CDMIAccess access_allowed;
 } TLM2CDMIData;
 
 #endif /* DMI_H */
