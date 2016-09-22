@@ -1,0 +1,13 @@
+.job_unix_makefile: &job_unix_makefile
+  script:
+    - cmake .
+    - make
+    - make test
+
+# Jobs
+## Linux
+Linux:
+  variables:
+    CC: "gcc"
+    CXX: "g++"
+  <<: *job_unix_makefile

@@ -86,8 +86,8 @@ void method_destroy(Method *method)
 
 void method_notify(Method *method, uint64_t time_ns)
 {
-  method->next_time_ns = env_get_time_ns(get_env()) + time_ns;
-  env_request_notify(get_env(), time_ns);
+  method->next_time_ns = tlm2c_env_get_time_ns(tlm2c_get_env()) + time_ns;
+  tlm2c_env_request_notify(tlm2c_get_env(), time_ns);
 }
 
 void method_notification(Method *method)
@@ -96,7 +96,7 @@ void method_notification(Method *method)
 
   while (current != NULL)
   {
-    if (env_get_time_ns(get_env()) == current->next_time_ns)
+    if (tlm2c_env_get_time_ns(tlm2c_get_env()) == current->next_time_ns)
     {
       current->next_time_ns = 0;
       current->cb(current->model);

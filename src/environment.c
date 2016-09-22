@@ -83,10 +83,9 @@ static void default_get_param_list(void *handler, char **list[], size_t *size)
 
 static void default_end_of_quantum(void *handler)
 {
-
 }
 
-Environment global_env =
+TLM2CEnvironment global_env =
 {
   default_get_time_ns,
   default_request_stop,
@@ -99,32 +98,32 @@ Environment global_env =
   NULL
 };
 
-void tlm2c_set_environment(Environment *env)
+void tlm2c_set_environment(TLM2CEnvironment *env)
 {
-  memcpy(&global_env, env, sizeof(Environment));
+  memcpy(&global_env, env, sizeof(TLM2CEnvironment));
 }
 
-Environment *get_env(void)
+TLM2CEnvironment *tlm2c_get_env(void)
 {
   return &global_env;
 }
 
-uint64_t env_get_time_ns(Environment *env)
+uint64_t tlm2c_env_get_time_ns(TLM2CEnvironment *env)
 {
   return env->get_time_ns(env->handler);
 }
 
-void env_request_notify(Environment *env, uint64_t time_ns)
+void tlm2c_env_request_notify(TLM2CEnvironment *env, uint64_t time_ns)
 {
   env->request_notify(env->handler, time_ns);
 }
 
-void env_signal_end_of_quantum(void)
+void tlm2c_env_signal_end_of_quantum(void)
 {
   global_env.end_of_quantum(global_env.handler);
 }
 
-void env_request_stop(void)
+void tlm2c_env_request_stop(void)
 {
   global_env.request_stop(global_env.handler);
 }
