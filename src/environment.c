@@ -127,3 +127,23 @@ void tlm2c_env_request_stop(void)
 {
   global_env.request_stop(global_env.handler);
 }
+
+uint64_t tlm2c_env_get_uint_param(const char *name)
+{
+  return global_env.get_uint_param(global_env.handler, name);
+}
+
+int64_t tlm2c_env_get_int_param(const char *name)
+{
+  return global_env.get_int_param(global_env.handler, name);
+}
+
+void tlm2c_env_get_string_param(const char *name, char **param)
+{
+  global_env.get_string_param(global_env.handler, name, param);
+}
+
+void tlm2c_env_get_param_list(char **list[], size_t *size)
+{
+  global_env.get_param_list(global_env.handler, list, size);
+}

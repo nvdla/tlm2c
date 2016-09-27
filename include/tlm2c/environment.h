@@ -70,7 +70,34 @@ void tlm2c_env_request_notify(TLM2CEnvironment *env, uint64_t time_ns);
 void tlm2c_env_signal_end_of_quantum(void);
 /* Signal the environment this tlm2c instance want to stop. */
 void tlm2c_env_request_stop(void);
-
+/**
+ * Get the value of a unsigned int parameter in the simulation.
+ *
+ * @param name The name of the parameter.
+ * @return The value of the parameter.
+ */
+uint64_t tlm2c_env_get_uint_param(const char *name);
+/**
+ * Get the value of a signed int parameter in the simulation.
+ *
+ * @param name The name of the parameter.
+ * @return The value of the parameter.
+ */
+int64_t tlm2c_env_get_int_param(const char *name);
+/**
+ * Get the value of a string parameter in the simulation.
+ *
+ * @param name The name of the parameter.
+ * @param param A pointer to the value.
+ */
+void tlm2c_env_get_string_param(const char *name, char **param);
+/**
+ * Get the list of the parameter available in the simulation.
+ *
+ * @param list A pointer to the list.
+ * @param size A pointer to the size.
+ */
+void tlm2c_env_get_param_list(char **list[], size_t *size);
 void tlm2c_set_environment(TLM2CEnvironment *env);
 
 /*
