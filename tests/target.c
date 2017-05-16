@@ -91,7 +91,7 @@ void bt(void *handle, Payload *p)
   uint64_t address = payload_get_address(gp);
   uint64_t value;
 
-  if (address > 0xFF)
+  if ((address > 0xFF) || (payload_get_cpuid(gp) != 0xCAFEBABE))
   {
     payload_set_response_status(gp, ADDRESS_ERROR_RESPONSE);
     return;
