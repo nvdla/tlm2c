@@ -74,6 +74,7 @@ void notify(Initiator *initiator)
   payload_set_size(p, 4);
   payload_set_command(p, WRITE);
   payload_set_cpuid(p, 0xCAFEBABE);
+  payload_set_exclusive(p, 0);
   b_transport(initiator->master_socket, (Payload *)p);
 
   switch (payload_get_response_status(p))
