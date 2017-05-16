@@ -71,6 +71,8 @@ void payload_set_size(GenericPayload *p, uint8_t size);
 uint8_t payload_get_size(GenericPayload *p);
 void payload_set_cpuid(GenericPayload *p, uint64_t cpuid);
 uint64_t payload_get_cpuid(GenericPayload *p);
+void payload_set_exclusive(GenericPayload *p, int exclusive);
+int payload_get_exclusive(GenericPayload *p);
 void payload_allow_dmi(GenericPayload *p, int allowed);
 int payload_dmi_allowed(GenericPayload *p);
 void payload_set_command(GenericPayload *p, Command cmd);
