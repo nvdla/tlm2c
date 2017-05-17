@@ -62,6 +62,8 @@ struct GenericPayload
   int dmi_allowed;
   Command cmd;
   ResponseStatus rep;
+  uint64_t cpuid;
+  int exclusive;
 };
 
 /*
@@ -157,5 +159,25 @@ void payload_set_response_status(GenericPayload *p, ResponseStatus rep)
 ResponseStatus payload_get_response_status(GenericPayload *p)
 {
   return p->rep;
+}
+
+void payload_set_cpuid(GenericPayload *p, uint64_t cpuid)
+{
+  p->cpuid = cpuid;
+}
+
+uint64_t payload_get_cpuid(GenericPayload *p)
+{
+  return p->cpuid;
+}
+
+void payload_set_exclusive(GenericPayload *p, int exclusive)
+{
+  p->exclusive = exclusive;
+}
+
+int payload_get_exclusive(GenericPayload *p)
+{
+  return p->exclusive;
 }
 
