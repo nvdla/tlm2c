@@ -64,6 +64,7 @@ struct GenericPayload
   ResponseStatus rep;
   uint64_t cpuid;
   int exclusive;
+  uint64_t time_ns;
 };
 
 /*
@@ -181,3 +182,12 @@ int payload_get_exclusive(GenericPayload *p)
   return p->exclusive;
 }
 
+void payload_set_time(GenericPayload *p, uint64_t t)
+{
+  p->time_ns=t;
+}
+
+uint64_t payload_get_time(GenericPayload *p)
+{
+  return p->time_ns;
+}

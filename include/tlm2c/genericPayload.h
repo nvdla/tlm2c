@@ -79,5 +79,6 @@ void payload_set_command(GenericPayload *p, Command cmd);
 Command payload_get_command(GenericPayload *p);
 void payload_set_response_status(GenericPayload *p, ResponseStatus rep);
 ResponseStatus payload_get_response_status(GenericPayload *p);
-
+void payload_set_time(GenericPayload *p, uint64_t t);
+uint64_t payload_get_time(GenericPayload *p);
 #endif /* !GENERIC_PAYLOAD_H */

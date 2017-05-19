@@ -81,7 +81,7 @@ static void default_get_param_list(void *handler, char **list[], size_t *size)
   *size = 0;
 }
 
-static void default_end_of_quantum(void *handler)
+static void default_end_of_quantum(void *handler, uint64_t time_ns)
 {
 }
 
@@ -118,9 +118,9 @@ void tlm2c_env_request_notify(TLM2CEnvironment *env, uint64_t time_ns)
   env->request_notify(env->handler, time_ns);
 }
 
-void tlm2c_env_signal_end_of_quantum(void)
+void tlm2c_env_signal_end_of_quantum(uint64_t time_ns)
 {
-  global_env.end_of_quantum(global_env.handler);
+  global_env.end_of_quantum(global_env.handler, time_ns);
 }
 
 void tlm2c_env_request_stop(void)
