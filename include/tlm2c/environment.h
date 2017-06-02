@@ -105,5 +105,6 @@ void tlm2c_set_environment(TLM2CEnvironment *env);
  */
 Model *tlm2c_elaboration(TLM2CEnvironment *environment);
 void tlm2c_end_of_elaboration(void);
+void tlm2c_end_of_simulation(void);
 
 #endif /* !ENVIRONMENT_H */
