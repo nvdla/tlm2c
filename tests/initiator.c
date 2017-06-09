@@ -129,6 +129,7 @@ void notify(Initiator *initiator)
   payload_set_address(p, 0x00000001);
   payload_set_value(p, 0);
   payload_set_command(p, READ);
+  payload_set_time(p, 0);
   b_transport(initiator->master_socket, (Payload *)p);
 
   switch (payload_get_response_status(p))
