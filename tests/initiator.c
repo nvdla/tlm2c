@@ -72,7 +72,7 @@ void notify(Initiator *initiator)
   payload_set_address(p, 0x00000000);
   payload_set_value(p, 0xDEADBEEF);
   payload_set_size(p, 4);
-  payload_set_command(p, WRITE);
+  payload_set_command(p, TLM2C_WRITE);
   payload_set_cpuid(p, 0xCAFEBABE);
   payload_set_exclusive(p, 0);
   b_transport(initiator->master_socket, (Payload *)p);
@@ -97,7 +97,7 @@ void notify(Initiator *initiator)
    */
   printf("Initiator reads @0x00000000\n");
   payload_set_value(p, 0);
-  payload_set_command(p, READ);
+  payload_set_command(p, TLM2C_READ);
   b_transport(initiator->master_socket, (Payload *)p);
 
   switch (payload_get_response_status(p))
@@ -128,7 +128,7 @@ void notify(Initiator *initiator)
   printf("Initiator reads @0x00000001\n");
   payload_set_address(p, 0x00000001);
   payload_set_value(p, 0);
-  payload_set_command(p, READ);
+  payload_set_command(p, TLM2C_READ);
   payload_set_time(p, 0);
   b_transport(initiator->master_socket, (Payload *)p);
 

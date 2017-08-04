@@ -100,12 +100,12 @@ void bt(void *handle, Payload *p)
 
   switch (payload_get_command(gp))
   {
-    case READ:
+    case TLM2C_READ:
       printf("Target get a read command @0x%8.8X\n", (unsigned int)address);
       payload_set_value(gp, target->data[address]);
       payload_set_response_status(gp, OK_RESPONSE);
     break;
-    case WRITE:
+    case TLM2C_WRITE:
       value = payload_get_value(gp);
       printf("Target get a write command 0x%8.8X @0x%8.8X\n",
              (unsigned int)value, (unsigned int)address);
