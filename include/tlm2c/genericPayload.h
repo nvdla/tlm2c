@@ -50,9 +50,9 @@ typedef struct GenericPayload GenericPayload;
 
 typedef enum Command
 {
-  READ,
-  WRITE,
-  UNKNOWN = 0
+  TLM2C_UNKNOWN = 0,
+  TLM2C_READ,
+  TLM2C_WRITE
 } Command;
 
 typedef enum ResponseStatus
