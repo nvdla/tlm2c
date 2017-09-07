@@ -58,7 +58,8 @@ typedef enum Command
 typedef enum ResponseStatus
 {
   ADDRESS_ERROR_RESPONSE = 0,
-  OK_RESPONSE
+  OK_RESPONSE,
+  ERROR_RESPONSE
 } ResponseStatus;
 
 GenericPayload *payload_create(void);
