@@ -122,6 +122,11 @@ uint64_t payload_get_value(GenericPayload *p)
   return p->value;
 }
 
+uint8_t *payload_get_value_ptr(GenericPayload *p)
+{
+  return (uint8_t *)&p->value;
+}
+
 void payload_set_size(GenericPayload *p, uint8_t size)
 {
   p->size = size;

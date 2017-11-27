@@ -68,6 +68,7 @@ void payload_set_address(GenericPayload *p, uint64_t address);
 uint64_t payload_get_address(GenericPayload *p);
 void payload_set_value(GenericPayload *p, uint64_t value);
 uint64_t payload_get_value(GenericPayload *p);
+uint8_t *payload_get_value_ptr(GenericPayload *p);
 void payload_set_size(GenericPayload *p, uint8_t size);
 uint8_t payload_get_size(GenericPayload *p);
 void payload_set_cpuid(GenericPayload *p, uint64_t cpuid);
