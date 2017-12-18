@@ -63,12 +63,14 @@ Socket *socket_insert_head(Socket *element, Socket *head);
 void socket_set_model(Socket *socket, Model *model);
 
 void default_end_of_elaboration(Model *model);
+void default_start_of_simulation(Model *model);
 
 void model_init(Model *model, const char *name)
 {
   memset(model, 0, sizeof(Model));
   model->name = strdup(name);
   model->end_of_elaboration = default_end_of_elaboration;
+  model->start_of_simulation = default_start_of_simulation;
 
   model->next = head;
   head = model;
@@ -113,7 +115,17 @@ void model_register_end_of_elaboration(Model *model, eoe_cb cb)
   model->end_of_elaboration = cb;
 }
 
+void model_register_start_of_simulation(Model *model, eoe_cb cb)
+{
+  model->start_of_simulation = cb;
+}
+
 void default_end_of_elaboration(Model *model)
+{
+  /* Nothing to do. */
+}
+
+void default_start_of_simulation(Model *model)
 {
   /* Nothing to do. */
 }
@@ -136,6 +148,11 @@ void model_end_of_elaboration(Model *model)
   model->end_of_elaboration(model);
 }
 
+void model_start_of_simulation(Model *model)
+{
+  model->start_of_simulation(model);
+}
+
 void model_notify(Model *model)
 {
   method_notification(model->methods);
@@ -153,6 +170,17 @@ void tlm2c_end_of_elaboration(void)
   while (model != NULL)
   {
     model_end_of_elaboration(model);
+    model = model->next;
+  }
+}
+
+void tlm2c_start_of_simulation(void)
+{
+  Model *model = head;
+
+  while (model != NULL)
+  {
+    model_start_of_simulation(model);
     model = model->next;
   }
 }

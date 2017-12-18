@@ -49,12 +49,14 @@ typedef struct Model Model;
 #include "socket.h"
 
 typedef void (*eoe_cb)(Model *model);
+typedef void (*sos_cb)(Model *model);
 
 struct Model
 {
   /* private */
   char *name;
   eoe_cb end_of_elaboration;
+  sos_cb start_of_simulation;
   Method *methods;
   Socket *sockets;
   Model *next;
@@ -64,9 +66,11 @@ void model_init(Model *model, const char *name);
 const char *tlm2c_model_get_name(Model *model);
 void model_add_method(Model *model, Method *method);
 void model_register_end_of_elaboration(Model *model, eoe_cb cb);
+void model_register_start_of_simulation(Model *model, sos_cb cb);
 void model_add_socket(Model *model, Socket *socket);
 void model_destroy(Model *model);
 void model_end_of_elaboration(Model *model);
+void model_start_of_simulation(Model *model);
 void model_notify(Model *model);
 Model *get_models(void);
 
