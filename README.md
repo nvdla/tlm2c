@@ -5,7 +5,7 @@
 
 ## Code status
 
-[![build status](http://ci.greensocs.com/projects/15/status.png?ref=master)](http://ci.greensocs.com/projects/15?ref=master)
+[![build status](https://git.greensocs.com/tlm/tlm2c/badges/master/build.svg)](https://git.greensocs.com/tlm/tlm2c/commits/master)
 
 ## Requirements
 
